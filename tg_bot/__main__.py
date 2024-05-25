@@ -17,7 +17,7 @@ import asyncio
 import logging
 
 from .bot.config import get_config
-from .bot.src import get_routers, SubscribeMiddleware, UserMiddleware
+from .bot.src import get_routers, SubscribeMiddleware, UserMiddleware, set_menu
 
 
 async def main():
@@ -38,11 +38,11 @@ async def main():
     dp.include_routers(*get_routers())
     dp.update.middleware(SubscribeMiddleware())
     dp.update.middleware(UserMiddleware())
-    # dp.startup.register(set_menu)
+    dp.startup.register(set_menu)
     setup_dialogs(dp)
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 
-#
+
 if __name__ == '__main__':
     asyncio.run(main())
