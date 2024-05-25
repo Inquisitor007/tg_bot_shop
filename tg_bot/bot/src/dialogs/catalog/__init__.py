@@ -1,0 +1,1 @@
+from .dialogs import catalog_dialog

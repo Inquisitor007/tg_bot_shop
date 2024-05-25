@@ -1,0 +1,3 @@
+from .command_handlers import commands_router
+from .payment_handlers import payment_router
+from .inline_mode_handlers import inline_mode_router

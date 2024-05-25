@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "tg-shop"
+version = "0.1.0"
+description = ""
+authors = ["dmitriy <dmitriydmgora@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.0.6"
+aiogram = "^3.6.0"
+aiogram-dialog = "^2.1.0"
+psycopg = {extras = ["binary"], version = "^3.1.19"}
+redis = "^5.0.4"
+environs = "^11.0.0"
+pillow = "^10.3.0"
+celery = "^5.4.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
