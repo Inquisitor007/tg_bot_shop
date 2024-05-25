@@ -19,14 +19,14 @@ async def process_pre_checkout_query(pre_checkout_query: PreCheckoutQuery):
 
 
 @payment_router.message(F.content_type == ContentType.SUCCESSFUL_PAYMENT)
-async def process_successful_payment(message: Message, dialog_manager: DialogManager):
+async def process_successful_payment(message: Message, writer: CSVWriter, dialog_manager: DialogManager):
     order = dialog_manager.dialog_data.get('order')
     order.paid = True
     await message.answer(text='Платеж прошел успешно.\nСпасибо за покупку!')
     await dialog_manager.start(state=MainMenuSG.menu, mode=StartMode.RESET_STACK)
     await sync_to_async(order.save)()
-    # writer = CSVWriter()
-    # await asyncio.to_thread(writer.writerow, (['qwe', 'ewq', 'eeeee']))
+    await asyncio.to_thread(writer.writerow, ([order.pk, order.user, order.address, order.fio, order.total_price]))
+
 
 
 

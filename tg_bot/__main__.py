@@ -17,14 +17,14 @@ import asyncio
 import logging
 
 from .bot.config import get_config
-from .bot.src import get_routers, SubscribeMiddleware, UserMiddleware, set_menu
+from .bot.src import get_routers, SubscribeMiddleware, UserMiddleware, set_menu, CSVWriter
 
 
 async def main():
     logging.basicConfig(level=logging.DEBUG,
                         format='[#{levelname} - {asctime}]\n{filename} - {name}|{funcName} - {lineno}: {message}\n',
                         style='{')
-
+    writer = CSVWriter()
     config = get_config()
     redis = Redis(host=config.redis.host, port=config.redis.port)
     storage = RedisStorage(redis=redis, key_builder=DefaultKeyBuilder(with_destiny=True))
@@ -34,7 +34,8 @@ async def main():
     )
 
     dp = Dispatcher()
-    dp.workflow_data.update({'payment_token': config.payment.token})
+    dp.workflow_data.update({'payment_token': config.payment.token,
+                             'writer': writer})
     dp.include_routers(*get_routers())
     dp.update.middleware(SubscribeMiddleware())
     dp.update.middleware(UserMiddleware())

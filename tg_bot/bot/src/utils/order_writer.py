@@ -1,14 +1,14 @@
 import csv
+import os
 from typing import Iterable
 
 
 class CSVWriter:
-    def __init__(self,
-                 path: str = 'data.csv',
+    def __init__(self, path: str = 'orders_data/data.csv',
                  mode: str = 'a'):
         self.path = path
         self.mode = mode
-        if self.mode == 'w':
+        if not os.path.isfile(path) or mode == 'w':
             self._csv_init()
 
     def writerow(self, order):
@@ -26,7 +26,7 @@ class CSVWriter:
                   encoding='utf-8-sig') as file:
             writer = csv.writer(file, delimiter=';')
             writer.writerow([
-                'id', 'Наименование', 'URL',
-                'Регулярная цена', 'Промо цена', 'Бренд'
+                '№', 'id пользователя', 'Адрес',
+                'ФИО', 'Общая цена'
             ])
             self.mode = 'a'

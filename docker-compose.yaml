@@ -9,7 +9,7 @@ services:
       - .env
     volumes:
       - media_files:/app/admin_panel/media
-#      - ./data.csv:/app/data.csv
+      - ./orders_data:/app/orders_data
     command: python3 -m tg_bot
     depends_on:
       postgres:

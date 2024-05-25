@@ -20,10 +20,6 @@ class Order(models.Model):
     def __str__(self):
         return f'заказ №{self.pk} на сумму: {self.total_price}'
 
-    def save(self, **kwargs):
-        self.total_price = self.user.cart.total_price()
-        super().save(**kwargs)
-
 
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='order_items')
