@@ -71,11 +71,5 @@ cart_dialog = Dialog(
         Start(text=Format('Перейти в главное меню'), id='to_menu', state=MainMenuSG.menu),
         state=CartSG.do_order,
         getter=order_data_getter
-    ),
-    # Window(
-    #     Format(text='Ваш заказ оформлен'),
-    #     Back(text=Format('Назад'), id='back'),
-    #     Start(text=Format('Перейти в главное меню'), id='to_catalog', state=MainMenuSG.menu),
-    #     state=CartSG.do_order,
-    # )
+    )
 )

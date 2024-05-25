@@ -41,6 +41,8 @@ async def order_invoice(callback: CallbackQuery, widget: Button, dialog_manager:
     token = dialog_manager.middleware_data.get('payment_token')
     cart_items = await sync_to_async(list)(CartItem.objects.filter(cart__user=user))
     order = await create_order(dialog_manager, user, cart_items)
+    dialog_manager.dialog_data['order'] = order
+    dialog_manager.middleware_data['order'] = order
     prices = [
         LabeledPrice(label=f'{await sync_to_async(str)(item)}: {item.quantity}', amount=item.item_total_price() * 100)
         for item in cart_items

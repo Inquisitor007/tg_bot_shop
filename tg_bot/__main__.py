@@ -33,8 +33,8 @@ async def main():
         default=DefaultBotProperties(parse_mode=ParseMode.HTML)
     )
 
-    dp = Dispatcher(storage=storage)
-    dp.workflow_data.update({'payment_token': config.payment.token,})
+    dp = Dispatcher()
+    dp.workflow_data.update({'payment_token': config.payment.token})
     dp.include_routers(*get_routers())
     dp.update.middleware(SubscribeMiddleware())
     dp.update.middleware(UserMiddleware())
