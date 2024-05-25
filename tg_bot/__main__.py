@@ -11,6 +11,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.client.bot import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram_dialog import setup_dialogs
+from aiogram.fsm.storage.redis import Redis, RedisStorage, DefaultKeyBuilder
 
 import asyncio
 import logging
@@ -25,13 +26,14 @@ async def main():
                         style='{')
 
     config = get_config()
-
+    redis = Redis(host=config.redis.host, port=config.redis.port)
+    storage = RedisStorage(redis=redis, key_builder=DefaultKeyBuilder(with_destiny=True))
     bot = Bot(
         token=config.tg_bot.token,
         default=DefaultBotProperties(parse_mode=ParseMode.HTML)
     )
 
-    dp = Dispatcher()
+    dp = Dispatcher(storage=storage)
     dp.workflow_data.update({'payment_token': config.payment.token,})
     dp.include_routers(*get_routers())
     dp.update.middleware(SubscribeMiddleware())
